@@ -6,7 +6,7 @@
 <script setup lang="ts">
 const router = useRouter()
 onMounted(() => {
-  console.log(555555);
+  // console.log(555555);
   
 })
 
