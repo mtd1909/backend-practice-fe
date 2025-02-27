@@ -5,10 +5,13 @@
 </template>
 <script setup lang="ts">
 const router = useRouter()
-onMounted(() => {
-  // console.log(555555);
-  
-})
+
+const users = ref()
+const handleGetUsers = async () => {
+  const res = await getUsers()
+  // employees.value = res?.data
+}
+handleGetUsers()
 
 const ha = () => {
   router.push('/')

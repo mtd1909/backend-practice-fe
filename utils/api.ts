@@ -27,12 +27,5 @@ const apiCall = async (method: string, endpoint: string, payload?: any) => {
   }
 };
 
-export const createWallet = (payload: any) =>
-  apiCall("POST", "/account", payload);
-export const updateWallet = (payload: any) =>
-  apiCall("PUT", "/account", payload);
-export const getWallet = (queryParams: Record<string, string> = {}) => {
-  const queryString = new URLSearchParams(queryParams).toString();
-  const endpoint = queryString ? `/account?${queryString}` : "/account";
-  return apiCall("GET", endpoint);
-};
+export const getUsers = () =>
+  apiCall("GET", "/users");
