@@ -17,6 +17,8 @@ const apiCall = async (method: string, endpoint: string, payload?: any) => {
   try {
     const response = await fetch(`${apiBase}${endpoint}`, options);
     const data = await response.json();
+    console.log(data);
+    
     if (data) {
       return data;
     }
@@ -28,5 +30,12 @@ const apiCall = async (method: string, endpoint: string, payload?: any) => {
 
 export const getUsers = () =>
   apiCall("GET", "/users");
+
 export const addUsers = (payload: any) =>
   apiCall("POST", "/users", payload);
+
+export const updateUsers = (id: any, payload: any) =>
+  apiCall("PUT", `/users/${id}`, payload);
+
+export const deleteUser = (id: any) =>
+  apiCall("DELETE", `/users/${id}`);

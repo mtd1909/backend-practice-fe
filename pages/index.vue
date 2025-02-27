@@ -3,7 +3,7 @@
     <h2 class="text-xl font-bold mb-4">Quản lý Nhân viên</h2>
 
     <!-- Form thêm/sửa -->
-    <form @submit.prevent="saveUser">
+    <form @submit.prevent="handleCreateUser">
       <div class="mb-4">
         <label class="block font-semibold">Tên nhân viên</label>
         <input v-model="form.full_name" type="text" class="w-full p-2 border r border-solid border-black rounded"
@@ -29,50 +29,66 @@
         class="flex justify-between items-center p-2 border-b border-solid border-black">
         <span>{{ user.full_name }} {{ user.age }}</span>
         <div>
-          <button @click="editUser(index)" class="text-yellow-500 mr-2">Sửa</button>
-          <button @click="deleteUser(index)" class="text-red-500">Xóa</button>
+          <button @click="handleEditUser(user?._id)" class="text-yellow-500 mr-2">Sửa</button>
+          <button @click="handleDeleteUser(user?._id)" class="text-red-500">Xóa</button>
         </div>
       </li>
     </ul>
   </div>
 </template>
 <script setup lang="ts">
+
+const form = ref({ full_name: '', age: '' });
+const isEditing = ref(false);
+const editingId = ref(null)
 const users = ref()
+
 const handleGetUsers = async () => {
   const res = await getUsers()
-  users.value = res
+  users.value = res?.data
 }
 handleGetUsers()
-const form = ref({ full_name: '', age: '', sex: 'aaa' });
-const isEditing = ref(false);
-let editingIndex = -1;
 
-const saveUser = async () => {
+const resetForm = () => {
+  form.value = {
+    full_name: '',
+    age: '',
+  }
+  isEditing.value = false
+  editingId.value = null
+}
+
+const handleCreateUser = async () => {
+  if (isEditing.value) {
+    try {
+      const res = await updateUsers(editingId.value, form.value)
+      handleGetUsers()
+    } catch (e) {
+      console.log(e);
+    }
+  } else {
+    try {
+      const res = await addUsers(form.value)
+      handleGetUsers()
+    } catch (e) {
+      console.log(e);
+    }
+  }
+};
+
+const handleEditUser = async (id: any) => {
+  form.value = { ...users.value.find((item: any) => item._id === id) };
+  isEditing.value = true;
+  editingId.value = id;
+};
+
+const handleDeleteUser = async (id: any) => {
   try {
-    const res = await addUsers(form.value)
-    console.log(res);
-
+    const res = await deleteUser(id)
     handleGetUsers()
-    resetForm();
   } catch (e) {
     console.log(e);
   }
 };
 
-const editUser = (index: number) => {
-  form.value = { ...users.value[index] };
-  isEditing.value = true;
-  editingIndex = index;
-};
-
-const deleteUser = (index: number) => {
-  users.value.splice(index, 1);
-  resetForm();
-};
-
-const resetForm = () => {
-  form.value = { full_name: '', age: '' };
-  isEditing.value = false;
-  editingIndex = -1;
-};
 </script>
