@@ -33,9 +33,6 @@
   </div>
 </template>
 <script setup lang="ts">
-definePageMeta({
-  middleware: ["auth"],
-});
 import { useUser } from "~/composable/users/useUsers";
 
 const form = ref({ full_name: "", age: "" });
@@ -49,7 +46,7 @@ const handleGetUsers = async () => {
   const res = await getUsers();
   users.value = res?.data;
 };
-await handleGetUsers();
+handleGetUsers();
 
 const resetForm = () => {
   form.value = {
