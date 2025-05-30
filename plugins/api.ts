@@ -1,46 +1,111 @@
-export default defineNuxtPlugin((nuxtApp) => {
-  const token = useCookie("kaisar_explore_token");
-  const config = useRuntimeConfig();
+import { COOKIE_MAX_AGE } from "~/constants";
 
-  const apiFetch = async (
-    endpoint: string,
-    options: RequestInit & { params?: Record<string, string> } = {}
-  ) => {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      ...(options.headers as Record<string, string>),
-    };
+// https://nuxt.com/docs/guide/recipes/custom-useAPI
+export default defineNuxtPlugin(() => {
+	const route = useRoute();
+	const config = useRuntimeConfig();
+	const { logout } = useAuthStore();
+	const { token, refreshToken } = storeToRefs(useAuthStore());
+	const appCookie = useCookie<AuthCookie>(config.public.AUTH_COOKIE, {
+		path: "/",
+		maxAge: COOKIE_MAX_AGE,
+	});
 
-    if (token.value) {
-      headers.Authorization = `${token.value}`;
-    }
+	let alreadyRefresh = false;
+	let refreshedAccessToken = "";
+	if (route.query?.access_token) {
+		token.value = route.query?.access_token;
+	}
+	const api = $fetch.create({
+		baseURL: config.public.apiBase,
+		onRequest({ options }) {
+			if (token.value) {
+				const headers = (options.headers ||= {});
+				if (Array.isArray(headers)) {
+					headers.push(["Authorization", `Bearer ${token.value}`]);
+				} else if (headers instanceof Headers) {
+					headers.set("Authorization", `Bearer ${token.value}`);
+				} else {
+					headers.Authorization = `Bearer ${token.value}`;
+				}
+			}
+		},
 
-    let url = `${config.public.apiBase}${endpoint}`;
-    if (options.params) {
-      const queryString = new URLSearchParams(options.params).toString();
-      url += `?${queryString}`;
-    }
+		async onResponse(context) {
+			const { response, request, options } = context;
 
-    const { params, ...fetchOptions } = options;
+			if (response.status !== 401) return;
 
-    try {
-      const response = await fetch(url, {
-        ...fetchOptions,
-        headers,
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw errorData
-      }
-      return await response.json();
-    } catch (error) {
-      throw error;
-    }
-  };
+			if (!alreadyRefresh) {
+				alreadyRefresh = true;
 
-  return {
-    provide: {
-      api: apiFetch,
-    },
-  };
+				try {
+					const { token: newToken } = await doRefreshToken({
+						_refreshToken: refreshToken.value,
+						_accessToken: token.value,
+					});
+					refreshedAccessToken = newToken;
+					await nextTick();
+				} catch (error) {
+					await logout("/");
+				} finally {
+					alreadyRefresh = false;
+					refreshedAccessToken = "";
+				}
+			}
+
+			const headers = new Headers(options.headers);
+			headers.set("Authorization", `Bearer ${refreshedAccessToken || appCookie.value?.auth?.token}`);
+			// @ts-ignore
+			await $fetch(request, {
+				...options,
+				headers,
+				onResponse(ctx) {
+					Object.assign(context, ctx);
+				},
+				onResponseError({ response }) {
+					if (response.status === 401) {
+						logout("/");
+					}
+				},
+			});
+		},
+	});
+
+	async function doRefreshToken({ _refreshToken, _accessToken }: { _refreshToken: string; _accessToken: string }) {
+		const resp = await $fetch<RefreshTokenResponse>("/auth/renew-token", {
+			baseURL: config.public.apiBase,
+			headers: {
+				Authorization: `Bearer ${_accessToken}`,
+			},
+			query: {
+				refreshToken: _refreshToken,
+			},
+			retry: false,
+		});
+
+		if (resp?.data) {
+			const cookieObj = {
+				auth: {
+					accessToken: resp?.data?.accessToken,
+					refreshToken: resp?.data?.refreshToken,
+				},
+			};
+			appCookie.value = cookieObj;
+
+			token.value = resp?.data?.accessToken;
+			refreshToken.value = resp?.data?.refreshToken;
+
+			refreshCookie(config.public.AUTH_COOKIE);
+
+			return { token: resp?.data?.accessToken };
+		}
+	}
+
+	// Expose to useNuxtApp().$api
+	return {
+		provide: {
+			api,
+		},
+	};
 });

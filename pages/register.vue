@@ -1,10 +1,13 @@
 <template>
 	<div class="max-w-110 w-110 flex flex-col items-center">
-		<h3 class="text-6.5 text-secondary text-semibold mb-2">Welcome Back !</h3>
-		<p class="text-secondary-400 mb-8">Sign in to continue to App Chat.</p>
+		<h3 class="text-6.5 text-secondary text-semibold mb-2">Register Account</h3>
+		<p class="text-secondary-400 mb-8">Get your free Doot account now.</p>
 		<UForm :schema="schema" :state="state" novalidate @submit="onSubmit" class="w-full">
+			<UFormGroup class="mb-6" label="Email" name="email">
+				<UInput v-model.trim="state.email" placeholder="Enter email" autocomplete="email" autofocus />
+			</UFormGroup>
 			<UFormGroup class="mb-6" label="Username" name="username">
-				<UInput v-model.trim="state.username" placeholder="Enter username" autocomplete="username" autofocus />
+				<UInput v-model.trim="state.username" placeholder="Enter username" autocomplete="username" />
 			</UFormGroup>
 			<UFormGroup class="mb-4" label="Password" name="password">
 				<UInput
@@ -30,10 +33,9 @@
 					</div>
 				</template>
 			</UFormGroup>
-			<UButton label="Login" type="submit" class="w-full flex justify-center" :loading="loading" />
+			<UButton label="Register" type="submit" class="w-full flex justify-center" :loading="loading" />
 		</UForm>
-    <nuxt-link to="/forgot-password" class="my-6 text-primary font-medium duration-300 hover:underline">Forgot Password?</nuxt-link>
-    		<!-- <div class="flex items-center w-full gap-6 my-6">
+		<!-- <div class="flex items-center w-full gap-6 my-6">
       <div class="h-0.25 w-full bg-background-200"></div>
       <div class="whitespace-nowrap">Sign in with</div>
       <div class="h-0.25 w-full bg-background-200"></div>
@@ -49,8 +51,8 @@
         <Icon name="ic:baseline-facebook" size="32" class="text-white" />
       </div>
     </div> -->
-		<div class="text-secondary-400">
-			Don't have an account? <nuxt-link to="/register" class="text-primary font-medium duration-300 hover:underline">Register</nuxt-link>
+		<div class="text-secondary-400 mt-6">
+			Already have an account? <nuxt-link to="/login" class="text-primary font-medium duration-300 hover:underline">Login</nuxt-link>
 		</div>
 	</div>
 </template>
@@ -64,13 +66,14 @@ definePageMeta({
 
 const route = useRoute();
 const router = useRouter();
-const { login, getProfile } = useAuthStore();
+const { register } = useAuthStore();
 
 const toast = useToast();
 
 const showPassword = ref(false);
 
 const schema = z.object({
+	email: z.string({ message: "Required" }).email({ message: "Invalid email format." }),
 	username: z
 		.string({
 			required_error: "Required.",
@@ -88,24 +91,27 @@ type Schema = z.output<typeof schema>;
 const state = reactive({
 	username: route.query?.username?.toString(),
 	password: undefined,
-	rememberMe: undefined,
+	email: undefined,
 });
-const { token } = storeToRefs(useAuthStore());
-const redirect = useCookie("redirect", { path: "/", maxAge: 3600 });
 
 const loading = ref(false);
 async function onSubmit(event: FormSubmitEvent<Schema>) {
 	try {
 		loading.value = true;
-		await login({
-			redirect: route.query?.redirect?.toString() ?? redirect.value ?? "/",
-			rememberMe: state.rememberMe,
-			body: {
-				username: state.username,
-				password: state.password,
-			},
+		const res = await register({
+			email: state.email,
+			username: state.username,
+			password: state.password,
 		});
-		router.push("/");
+		if (res?.data) {
+			toast.add({
+				color: "green",
+				title: "Success!",
+				description: res?.data?.message,
+				icon: "i-ic:outline-error-outline",
+			});
+      router.push('/login')
+		}
 	} catch (e) {
 		toast.add({
 			color: "red",

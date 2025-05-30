@@ -16,7 +16,8 @@ export default defineConfig({
       background: {
         '100': '#F6F6F9',
         '200': '#eaeaf1',
-        '300': '#d1d1d4'
+        '300': '#d1d1d4',
+        '400': '#2e2e2e'
       },
       primary: {
         DEFAULT: '#4EAC6D',

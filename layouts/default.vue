@@ -9,7 +9,7 @@
         </div>
         <p class="text-white text-4.5">A fast, secure, and user-friendly chat app designed to keep you connected anytime, anywhere.</p>
       </div>
-      <div class="flex-grow bg-white rounded-4">
+      <div class="flex-grow bg-white rounded-4 z-3">
         <div class="flex flex-col h-full">
           <div class="flex items-center justify-center overflow-y-auto flex-grow">
             <slot />
