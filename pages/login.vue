@@ -1,92 +1,130 @@
 <template>
-  <div class="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
-    <h2 class="text-xl font-bold mb-4">Quản lý Nhân viên</h2>
-
-    <!-- Form thêm/sửa -->
-    <form @submit.prevent="handleCreateUser">
-      <div class="mb-4">
-        <label class="block font-semibold">Tên nhân viên</label>
-        <input v-model="form.full_name" type="text" class="w-full p-2 border r border-solid border-black rounded" required />
+  <div class="max-w-110 w-110 flex flex-col items-center">
+    <h3 class="text-6.5 text-secondary text-semibold mb-2">Welcome Back !</h3>
+    <p class="text-secondary-400 mb-8">Sign in to continue to App Chat.</p>
+    <UForm :schema="schema" :state="state" novalidate @submit="onSubmit" class="w-full">
+      <UFormGroup class="mb-6" label="Username" name="username">
+        <UInput v-model.trim="state.username" placeholder="Enter username" autocomplete="username" autofocus />
+      </UFormGroup>
+      <UFormGroup class="mb-4" label="Password" name="password">
+        <UInput
+          v-model.trim="state.password"
+          :type="showPassword ? 'text' : 'password'"
+          :ui="{ icon: { trailing: { pointer: '' } } }"
+          placeholder="Enter password"
+          autocomplete="current-password"
+        >
+          <template #trailing>
+            <UButton
+              class="text-[#787878] text-xl"
+              :icon="showPassword ? 'material-symbols:visibility-off-outline' : 'i-material-symbols:visibility-outline'"
+              variant="link"
+              :padded="false"
+              @click="showPassword = !showPassword"
+            />
+          </template>
+        </UInput>
+        <template #error="{ error }">
+          <div v-if="error">
+            {{ error }}
+          </div>
+        </template>
+      </UFormGroup>
+      <UFormGroup class="mb-6" name="remember">
+        <UCheckbox
+          v-model="state.rememberMe"
+          label="Remember me"
+          class="checkbox"
+          :ui="{
+            label: 'text-sm font-medium leading-6',
+            container: 'h-6',
+          }"
+        />
+      </UFormGroup>
+      <UButton label="Log In" type="submit" class="w-full flex justify-center" :loading="loading" />
+    </UForm>
+    <!-- <div class="flex items-center w-full gap-6 my-6">
+      <div class="h-0.25 w-full bg-background-200"></div>
+      <div class="whitespace-nowrap">Sign in with</div>
+      <div class="h-0.25 w-full bg-background-200"></div>
+    </div>
+    <div class="grid grid-cols-3 gap-6 h-10 w-full">
+      <div class="bg-background-100 rounded-1 w-full flex items-center justify-center duration-300 hover:bg-background-300">
+        <Icon name="ic:baseline-facebook" size="32" class="text-white" />
       </div>
-
-      <div class="mb-4">
-        <label class="block font-semibold">Tuổi</label>
-        <input v-model="form.age" type="text" class="w-full p-2 border r border-solid border-black rounded" required />
+      <div class="bg-background-100 rounded-1 w-full flex items-center justify-center duration-300 hover:bg-background-300">
+        <Icon name="ic:baseline-facebook" size="32" class="text-white" />
       </div>
-
-      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">
-        {{ isEditing ? "Cập nhật" : "Thêm mới" }}
-      </button>
-      <button v-if="isEditing" @click="resetForm" type="button" class="ml-2 px-4 py-2 bg-gray-400 text-white rounded">Hủy</button>
-    </form>
-
-    <!-- Danh sách nhân viên -->
-    <ul class="mt-6">
-      <li v-for="(user, index) in users" :key="index" class="flex justify-between items-center p-2 border-b border-solid border-black">
-        <span>{{ user.full_name }} {{ user.age }}</span>
-        <div>
-          <button @click="handleEditUser(user?._id)" class="text-yellow-500 mr-2">Sửa</button>
-          <button @click="handleDeleteUser(user?._id)" class="text-red-500">Xóa</button>
-        </div>
-      </li>
-    </ul>
+      <div class="bg-background-100 rounded-1 w-full flex items-center justify-center duration-300 hover:bg-background-300">
+        <Icon name="ic:baseline-facebook" size="32" class="text-white" />
+      </div>
+    </div> -->
+    <div class="text-secondary-400 mt-6">
+      Don't have an account? <nuxt-link class="text-primary font-medium duration-300 hover:underline">Register</nuxt-link>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-import { useUser } from "~/composable/users/useUsers";
+import type { FormSubmitEvent } from "#ui/types";
+import { string, z } from "zod";
 
-const form = ref({ full_name: "", age: "" });
-const isEditing = ref(false);
-const editingId = ref(null);
-const users = ref();
+definePageMeta({
+  title: "Login",
+});
 
-const { getUsers, updateUsers, addUsers, deleteUser } = useUser();
+const route = useRoute();
+const router = useRouter();
+const { login, register } = useAuthStore();
 
-const handleGetUsers = async () => {
-  const res = await getUsers();
-  users.value = res?.data;
-};
-handleGetUsers();
+const toast = useToast();
 
-const resetForm = () => {
-  form.value = {
-    full_name: "",
-    age: "",
-  };
-  isEditing.value = false;
-  editingId.value = null;
-};
+const showPassword = ref(false);
 
-const handleCreateUser = async () => {
-  if (isEditing.value) {
-    try {
-      const res = await updateUsers(editingId.value, form.value);
-      handleGetUsers();
-    } catch (e) {
-      console.log(e);
-    }
-  } else {
-    try {
-      const res = await addUsers(form.value);
-      handleGetUsers();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-};
+const schema = z.object({
+  username: z
+    .string({
+      required_error: "Required.",
+    })
+    .min(1, { message: "Required." }),
+  password: z
+    .string({
+      required_error: "Required.",
+    })
+    .min(1, { message: "Required." }),
+});
 
-const handleEditUser = async (id: any) => {
-  form.value = { ...users.value.find((item: any) => item._id === id) };
-  isEditing.value = true;
-  editingId.value = id;
-};
+type Schema = z.output<typeof schema>;
 
-const handleDeleteUser = async (id: any) => {
+const state = reactive({
+  username: route.query?.username?.toString(),
+  password: undefined,
+  rememberMe: undefined,
+});
+const { token } = storeToRefs(useAuthStore());
+const redirect = useCookie("redirect", { path: "/", maxAge: 3600 });
+
+const loading = ref(false);
+async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
-    const res = await deleteUser(id);
-    handleGetUsers();
+    loading.value = true;
+    await login({
+      redirect: route.query?.redirect?.toString() ?? redirect.value ?? "/",
+      rememberMe: state.rememberMe,
+      body: {
+        username: state.username,
+        password: state.password,
+      },
+    });
+    router.push("/");
   } catch (e) {
-    console.log(e);
+    toast.add({
+      color: "red",
+      title: "Error!",
+      description: e?.error?.message,
+      icon: "i-ic:outline-error-outline",
+    });
+  } finally {
+    loading.value = false;
   }
-};
+}
 </script>

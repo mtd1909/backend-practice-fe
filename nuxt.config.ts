@@ -1,146 +1,150 @@
 export default defineNuxtConfig({
-    css: [
-        "~/styles/base.scss",
-        "~/styles/account.scss",
-    ],
-
-    // app config
-    app: {
-        head: {
-            meta: [
-                {
-                    name: "viewport",
-                    content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-                }
-            ],
-            link: [
-                {
-                    rel: 'preconnect',
-                    href: 'https://fonts.googleapis.com'
-                },
-                {
-                    rel: 'preconnect',
-                    href: 'https://fonts.gstatic.com'
-                },
-                {
-                    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-                    rel: "preload",
-                    as: "style",
-                    onload: "this.onload=null;this.rel='stylesheet'"
-                },
-                {
-                    href: "",
-                    rel: "",
-                    type: ""
-                },
-            ],
-            script: [
-                {
-                    src: "",
-                    type: "text/javascript"
-                },
-            ],
-        },
-        // pageTransition: { name: 'page', mode: 'out-in' },
-        // layoutTransition: { name: 'layout', mode: 'out-in' },
-    },
-
-    postcss: {
-        plugins: {
-            autoprefixer: {},
-        },
-    },
-
-    webpack: {
-        optimizeCSS: true,
-        extractCSS: true,
-        optimization: {
-            splitChunks: {
-                chunks: 'all',
-            },
-        },
-    },
-
-    typescript: {
-        shim: false,
-        strict: true,
-        //typeCheck: true,
-    },
-
-    modules: [
-        '@unocss/nuxt',
-        '@pinia/nuxt',
-        'nuxt-icon',
-    ],
-
-    vite: {
-        build: {
-            cssMinify: true,
-            minify: true,
-            rollupOptions: {
-
-                output: {
-                    manualChunks: (
-                        id: string
-                    ) => {
-                        if (id.indexOf("node_modules/vue-router/") !== -1) {
-                            return "vue-router";
-                        }
-                        if (id.indexOf("node_modules/@vueuse/") !== -1) {
-                            return "vueuse/";
-                        }
-
-                        if (id.indexOf("node_modules/vue-final-modal/") !== -1) {
-                            return "vue-final-modal";
-                        }
-
-                        if (id.indexOf("/repositories/") !== -1) {
-                            return "repositories";
-                        }
-                        if (id.indexOf("utils/") !== -1) {
-                            return "utils";
-                        }
-                    },
-                }
-            }
-        },
-        plugins: [
-
-        ],
-
-        vue: {
-            script: {
-                defineModel: true,
-                propsDestructure: true
-            }
-        }
-    },
-
-    components: [
+  css: [
+    "~/styles/base.scss",
+    "~/styles/account.scss",
+  ],
+  devtools: {
+    enabled: false
+  },
+  // app config
+  app: {
+    head: {
+      meta: [
         {
-            path: "~/components",
-            global: true,
+          name: "viewport",
+          content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        }
+      ],
+      link: [
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.googleapis.com'
         },
+        {
+          rel: 'preconnect',
+          href: 'https://fonts.gstatic.com'
+        },
+        {
+          href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+          rel: "preload",
+          as: "style",
+          onload: "this.onload=null;this.rel='stylesheet'"
+        },
+        {
+          href: "",
+          rel: "",
+          type: ""
+        },
+      ],
+      script: [
+        {
+          src: "",
+          type: "text/javascript"
+        },
+      ],
+    },
+    // pageTransition: { name: 'page', mode: 'out-in' },
+    // layoutTransition: { name: 'layout', mode: 'out-in' },
+  },
+
+  postcss: {
+    plugins: {
+      autoprefixer: {},
+    },
+  },
+
+  webpack: {
+    optimizeCSS: true,
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+      },
+    },
+  },
+
+  typescript: {
+    shim: false,
+    strict: true,
+    //typeCheck: true,
+  },
+
+  modules: [
+    "@vueuse/nuxt",
+    "@nuxt/icon",
+    "@pinia/nuxt",
+    "@unocss/nuxt",
+    "@nuxt/ui",
+  ],
+
+  vite: {
+    build: {
+      cssMinify: true,
+      minify: true,
+      rollupOptions: {
+
+        output: {
+          manualChunks: (
+            id: string
+          ) => {
+            if (id.indexOf("node_modules/vue-router/") !== -1) {
+              return "vue-router";
+            }
+            if (id.indexOf("node_modules/@vueuse/") !== -1) {
+              return "vueuse/";
+            }
+
+            if (id.indexOf("node_modules/vue-final-modal/") !== -1) {
+              return "vue-final-modal";
+            }
+
+            if (id.indexOf("/repositories/") !== -1) {
+              return "repositories";
+            }
+            if (id.indexOf("utils/") !== -1) {
+              return "utils";
+            }
+          },
+        }
+      }
+    },
+    plugins: [
+
     ],
 
-    runtimeConfig: {
-        public: {
-            baseUrl: process.env.BASE_URL,
-            apiBase: process.env.API_BASE_URL
-        }
-    },
+    vue: {
+      script: {
+        defineModel: true,
+        propsDestructure: true
+      }
+    }
+  },
 
-    site: {
-        indexable: true,
-        url: '',
-        name: '',
-        description: '',
-        defaultLocale: '',
+  components: [
+    {
+      path: "~/components",
+      global: true,
     },
+  ],
 
-    experimental: {
-        viewTransition: true
-    },
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.API_BASE_URL,
+      AUTH_COOKIE: process.env.AUTH_COOKIE,
+    }
+  },
 
-    compatibilityDate: "2024-09-17",
+  site: {
+    indexable: true,
+    url: '',
+    name: '',
+    description: '',
+    defaultLocale: '',
+  },
+
+  experimental: {
+    viewTransition: true
+  },
+
+  compatibilityDate: "2024-09-17",
 })

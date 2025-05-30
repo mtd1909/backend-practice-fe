@@ -32,7 +32,7 @@ export const useAuth = () => {
 
 export const useLogged = () => {
   return computed(() => {
-    const cookieToken = useCookie("auction_token");
+    const cookieToken = useCookie("chat_token");
     if (cookieToken.value) {
       return true;
     }

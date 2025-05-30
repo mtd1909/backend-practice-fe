@@ -1,10 +1,6 @@
 <template>
   <NuxtLayout>
-    <NuxtPage
-      :keepalive="{
-        max: 0,
-      }"
-    />
+    <NuxtPage />
+    <UNotifications />
   </NuxtLayout>
 </template>
-

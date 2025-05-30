@@ -4,47 +4,38 @@ import { defineConfig, presetUno, presetAttributify, presetIcons } from 'unocss'
 export default defineConfig({
   presets: [
     presetUno(),
-    presetAttributify(), 
+    presetAttributify(),
     presetIcons(),
   ],
   theme: {
     colors: {
-      base : {
+      base: {
         'white': '#fff',
         'black': '#0a0a0b',
       },
       background: {
-        '100': '#F5F5F5',
-        '200': '#E0E0E0',
-        '300': '#F8F9FA'
+        '100': '#F6F6F9',
+        '200': '#eaeaf1',
+        '300': '#d1d1d4'
       },
       primary: {
-        DEFAULT: '#0F3CC9',
-        '1000': '#061953',
-        '900': '#082270',
-        '800': '#0b2a8e',
-        '700': '#0d33ab',
-        '600': '#1549ee',
-        '500': '#3c67f0',
-        '400': '#6386f3',
+        DEFAULT: '#4EAC6D',
+        '400': '#4EAC6DE6',
         '300': '#8aa4f6 ',
-        '200': '#b1c2f9',
-        '100': '#d8e1fc',
+        '200': '#b12f9',
+        '100': '#d8ec1fc',
       },
       secondary: {
-        DEFAULT: '#AAB9C5',
-        '1000': '#323F49',
-        '900': '#4A5E6D',
-        '800': '#637D92',
-        '700': '#7991A4',
-        '600': '#92A5B5',
-        '500': '#B6C3CD',
-        '400': '#C2CDD6 ',
-        '300': '#CED7DE ',
+        DEFAULT: '#495057',
+        '400': '#495057BF',
+        '300': '#FFFFFF80 ',
         '200': '#DAE1E7',
         '100': '#E7EBEF',
       },
-      neutrals   : {
+      gray: {
+        '700': '#495057BF',
+      },
+      neutrals: {
         '1000': '#151314',
         '900': '#2b2829',
         '800': '#433e3f',
@@ -82,20 +73,20 @@ export default defineConfig({
       }
     },
     container: {
-			center: true,
-			padding: {
-				DEFAULT: "20px",
-				sm: "20px",
-				lg: "30px",
-				xl: "30px",
-			},
-			maxWidth: {
-				sm: "640px",
-				md: "768px",
-				lg: "1024px",
-				xl: "1320px",
-			},
-		},
+      center: true,
+      padding: {
+        DEFAULT: "20px",
+        sm: "20px",
+        lg: "30px",
+        xl: "30px",
+      },
+      maxWidth: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1320px",
+      },
+    },
   },
   rules: [
   ],

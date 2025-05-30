@@ -1,5 +1,5 @@
 {
-  "name": "questora-web",
+  "name": "app-chat",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -12,18 +12,25 @@
     "analyze": "npx nuxi analyze"
   },
   "dependencies": {
+    "@iconify-json/mdi": "^1.2.0",
+    "@iconify-json/uil": "^1.2.0",
+    "@lucky-canvas/vue": "^0.1.11",
+    "@nuxt/icon": "^1.5.1",
+    "@nuxt/ui": "^2.20.0",
     "@nuxtjs/device": "^3.2.2",
-    "@pinia/nuxt": "^0.7.0",
-    "axios": "^1.7.7",
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "@pinia/nuxt": "^0.5.4",
+    "@unocss/nuxt": "^0.65.2",
+    "@vueuse/core": "^11.1.0",
+    "@vueuse/nuxt": "^11.1.0",
+    "ethers": "^6.13.3",
     "nuxt": "^3.13.2",
-    "nuxt-icon": "^0.6.8",
+    "pinia": "^2.2.2",
     "postcss": "^8.4.47",
     "sass": "^1.78.0",
+    "siwe": "^2.3.2",
     "typescript": "^5.6.2",
+    "unocss": "^0.65.2",
     "vite": "^5.4.6"
-  },
-  "devDependencies": {
-    "@unocss/nuxt": "^0.63.6",
-    "unocss": "^0.63.6"
   }
 }
