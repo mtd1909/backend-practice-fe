@@ -1,5 +1,6 @@
 <template>
   <div class="">This my home</div>
+  <div class="">{{ user }}</div>
 </template>
 <script setup lang="ts">
 definePageMeta({
@@ -7,7 +8,7 @@ definePageMeta({
   layout: 'auth'
 });
 // import { useUser } from "~/composable/users/useUsers";
-
+const { isLoggedIn, user, token } = storeToRefs(useAuthStore());
 const form = ref({ full_name: "", age: "" });
 const isEditing = ref(false);
 const editingId = ref(null);

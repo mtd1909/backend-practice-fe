@@ -14,6 +14,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
 	}
 	const getDataUser = async () => {
 		const resp = await getProfile();
+    console.log(resp);
+    
 		user.value = resp?.data;
 	};
 	if (!user.value) {
