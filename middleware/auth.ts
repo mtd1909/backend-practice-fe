@@ -5,9 +5,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
 	const { getProfile } = useAuthStore();
 	const { isLoggedIn, user, token } = storeToRefs(useAuthStore());
 	const redirect = useCookie("redirect");
-	if (!to.fullPath.includes("/logout")) {
-		redirect.value = to.fullPath;
-	}
+	// if (!to.fullPath.includes("/logout")) {
+	// 	redirect.value = to.fullPath;
+	// }
 	if (!isLoggedIn.value) {
 		return navigateTo(`/login`);
 	}
