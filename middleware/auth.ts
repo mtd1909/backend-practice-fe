@@ -33,5 +33,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
 	});
 	if (to?.query?.access_token) {
 		authCookie.value = cookieObj;
+    return navigateTo('/')
 	}
 });
