@@ -33,22 +33,7 @@
 			<UButton label="Login" type="submit" class="w-full flex justify-center" :loading="loading" />
 		</UForm>
     <nuxt-link to="/forgot-password" class="my-6 text-primary font-medium duration-300 hover:underline">Forgot Password?</nuxt-link>
-    		<!-- <div class="flex items-center w-full gap-6 my-6">
-      <div class="h-0.25 w-full bg-background-200"></div>
-      <div class="whitespace-nowrap">Sign in with</div>
-      <div class="h-0.25 w-full bg-background-200"></div>
-    </div>
-    <div class="grid grid-cols-3 gap-6 h-10 w-full">
-      <div class="bg-background-100 rounded-1 w-full flex items-center justify-center duration-300 hover:bg-background-300">
-        <Icon name="ic:baseline-facebook" size="32" class="text-white" />
-      </div>
-      <div class="bg-background-100 rounded-1 w-full flex items-center justify-center duration-300 hover:bg-background-300">
-        <Icon name="ic:baseline-facebook" size="32" class="text-white" />
-      </div>
-      <div class="bg-background-100 rounded-1 w-full flex items-center justify-center duration-300 hover:bg-background-300">
-        <Icon name="ic:baseline-facebook" size="32" class="text-white" />
-      </div>
-    </div> -->
+    <a href="https://backend-practice-production-66bb.up.railway.app/auth/google" class="">Continue with Google</a>
 		<div class="text-secondary-400">
 			Don't have an account? <nuxt-link to="/register" class="text-primary font-medium duration-300 hover:underline">Register</nuxt-link>
 		</div>
