@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const { isLoggedIn, user, token } = storeToRefs(useAuthStore());
   const redirect = useCookie("redirect");
   const config = useRuntimeConfig();
-  const nuxtApp = useNuxtApp()
+  const { $api } = useNuxtApp()
   if (!to.fullPath.includes("/logout")) {
     redirect.value = to.fullPath;
   }
@@ -13,11 +13,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return navigateTo(`/login`);
   }
   const getDataUser = async () => {
-    const resp = await nuxtApp.$api('/user/info/profile', {
+    const resp = await $api('/user/info/profile', {
       method: 'GET',
     })
     user.value = resp?.data;
   };
+  console.log(user.value);
+
   if (!user.value) {
     await getDataUser();
   }

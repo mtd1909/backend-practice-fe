@@ -1,9 +1,13 @@
 <template>
   <div class="h-[100dvh] flex">
     <LayoutSidebar />
-    <main>
-      <slot />
-    </main>
+    <slot />
+    <!-- <div class="w-75 bg-white">
+      <slot name="main" />
+    </div>
+    <div class="flex-grow bg-blue">
+      <slot name="chat" />
+    </div> -->
     <!-- <LayoutFooter/> -->
   </div>
 </template>
