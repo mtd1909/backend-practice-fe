@@ -5,8 +5,11 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ["auth"],
-  layout: 'auth'
+  layout: "auth",
 });
+
+const router = useRouter();
+router.push("/chat");
 // import { useUser } from "~/composable/users/useUsers";
 const { isLoggedIn, user, token } = storeToRefs(useAuthStore());
 const form = ref({ full_name: "", age: "" });

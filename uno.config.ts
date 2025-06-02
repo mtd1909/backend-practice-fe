@@ -28,6 +28,7 @@ export default defineConfig({
       },
       secondary: {
         DEFAULT: '#495057',
+        '500': '#878a92',
         '400': '#495057BF',
         '300': '#FFFFFF80 ',
         '200': '#DAE1E7',

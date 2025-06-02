@@ -1,20 +1,22 @@
 <template>
-	<div class="h-[100dvh] flex">
-		<LayoutSidebar />
-		<main>
-			<slot />
-		</main>
-		<!-- <LayoutFooter/> -->
-	</div>
+  <div class="h-[100dvh] flex">
+    <LayoutSidebar />
+    <main>
+      <slot />
+    </main>
+    <!-- <LayoutFooter/> -->
+  </div>
 </template>
 <script setup lang="ts">
-const { getProfile } = useAuthStore()
-const { user, isLoggedIn } = storeToRefs(useAuthStore())
+const { user, isLoggedIn } = storeToRefs(useAuthStore());
+const nuxtApp = useNuxtApp();
 const getDataUser = async () => {
-  const resp = await getProfile()
-  user.value = resp?.data
-}
+  const resp = await nuxtApp.$api("/user/info/profile", {
+    method: "GET",
+  });
+  user.value = resp?.data;
+};
 if (!user.value) {
-  await getDataUser()
+  await getDataUser();
 }
 </script>
