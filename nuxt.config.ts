@@ -9,42 +9,12 @@ export default defineNuxtConfig({
   // app config
   app: {
     head: {
+      charset: "utf-8",
+      viewport: "width=device-width,initial-scale=1",
       meta: [
-        {
-          name: "viewport",
-          content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-        }
-      ],
-      link: [
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.googleapis.com'
-        },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.gstatic.com'
-        },
-        {
-          href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
-          rel: "preload",
-          as: "style",
-          onload: "this.onload=null;this.rel='stylesheet'"
-        },
-        {
-          href: "",
-          rel: "",
-          type: ""
-        },
-      ],
-      script: [
-        {
-          src: "",
-          type: "text/javascript"
-        },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
       ],
     },
-    // pageTransition: { name: 'page', mode: 'out-in' },
-    // layoutTransition: { name: 'layout', mode: 'out-in' },
   },
 
   postcss: {
@@ -132,14 +102,6 @@ export default defineNuxtConfig({
       apiBase: process.env.API_BASE_URL,
       AUTH_COOKIE: process.env.AUTH_COOKIE,
     }
-  },
-
-  site: {
-    indexable: true,
-    url: '',
-    name: '',
-    description: '',
-    defaultLocale: '',
   },
 
   experimental: {

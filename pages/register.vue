@@ -3,8 +3,11 @@
     <h3 class="text-xl md:text-6.5 text-secondary text-semibold mb-2">Register Account</h3>
     <p class="text-secondary-400 mb-8">Get your free Doot account now.</p>
     <UForm :schema="schema" :state="state" novalidate @submit="onSubmit" class="w-full">
+      <UFormGroup class="mb-6" label="Fullname" name="fullName">
+        <UInput v-model="state.fullName" placeholder="Enter fullname" autocomplete="fullname" />
+      </UFormGroup>
       <UFormGroup class="mb-6" label="Email" name="email">
-        <UInput v-model.trim="state.email" placeholder="Enter email" autocomplete="email" autofocus />
+        <UInput v-model.trim="state.email" placeholder="Enter email" autocomplete="email" />
       </UFormGroup>
       <UFormGroup class="mb-6" label="Username" name="username">
         <UInput v-model.trim="state.username" placeholder="Enter username" autocomplete="username" />
@@ -73,12 +76,17 @@ const toast = useToast();
 const showPassword = ref(false);
 
 const schema = z.object({
-  email: z.string({ message: "Required" }).email({ message: "Invalid email format." }),
+  fullName: z
+    .string({
+      required_error: "Required.",
+    })
+    .min(1, { message: "Required." }),
   username: z
     .string({
       required_error: "Required.",
     })
     .min(1, { message: "Required." }),
+  email: z.string({ message: "Required" }).email({ message: "Invalid email format." }),
   password: z
     .string({
       required_error: "Required.",
@@ -89,9 +97,10 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 const state = reactive({
-  username: route.query?.username?.toString(),
-  password: undefined,
+  fullName: undefined,
+  username: undefined,
   email: undefined,
+  password: undefined,
 });
 
 const loading = ref(false);
@@ -102,6 +111,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       email: state.email,
       username: state.username,
       password: state.password,
+      fullName: state.fullName,
     });
     if (res?.data) {
       toast.add({

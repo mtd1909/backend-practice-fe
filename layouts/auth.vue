@@ -1,14 +1,10 @@
 <template>
   <div class="h-[100dvh] flex">
     <LayoutSidebar />
-    <slot />
-    <!-- <div class="w-75 bg-white">
-      <slot name="main" />
+    <div class="w-75 bg-white">
+      <slot />
     </div>
-    <div class="flex-grow bg-blue">
-      <slot name="chat" />
-    </div> -->
-    <!-- <LayoutFooter/> -->
+    <LayoutChat />
   </div>
 </template>
 <script setup lang="ts">

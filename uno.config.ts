@@ -17,7 +17,8 @@ export default defineConfig({
         '100': '#F6F6F9',
         '200': '#eaeaf1',
         '300': '#d1d1d4',
-        '400': '#2e2e2e'
+        '400': '#2e2e2e',
+        '500': '#f8f9fa'
       },
       primary: {
         DEFAULT: '#4EAC6D',
@@ -33,9 +34,6 @@ export default defineConfig({
         '300': '#FFFFFF80 ',
         '200': '#DAE1E7',
         '100': '#E7EBEF',
-      },
-      gray: {
-        '700': '#495057BF',
       },
       neutrals: {
         '1000': '#151314',

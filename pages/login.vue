@@ -4,7 +4,7 @@
     <p class="text-secondary-400 mb-8">Sign in to continue to App Chat.</p>
     <UForm :schema="schema" :state="state" novalidate @submit="onSubmit" class="w-full">
       <UFormGroup class="mb-6" label="Username" name="username">
-        <UInput v-model.trim="state.username" placeholder="Enter username" autocomplete="username" autofocus />
+        <UInput v-model.trim="state.username" placeholder="Enter username" autocomplete="username" />
       </UFormGroup>
       <UFormGroup class="mb-4" label="Password" name="password">
         <UInput
@@ -97,7 +97,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         password: state.password,
       },
     });
-    router.push("/");
+    // router.push("/");
   } catch (e) {
     toast.add({
       color: "red",

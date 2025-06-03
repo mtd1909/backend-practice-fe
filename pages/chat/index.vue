@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Nội dung chính</h1>
+    <h1>Chat</h1>
     <p>Đây là phần hiển thị trong slot chính.</p>
   </div>
 </template>
@@ -8,5 +8,6 @@
 definePageMeta({
   middleware: ["auth"],
   layout: "auth",
+  title: "Đăng nhập",
 });
 </script>

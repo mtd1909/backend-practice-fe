@@ -10,8 +10,6 @@ interface LoginParams {
 export const useAuthStore = defineStore("auth", () => {
   const config = useRuntimeConfig();
   const router = useRouter();
-  const route = useRoute();
-  const nuxtApp = useNuxtApp();
   const user = ref<AppUser | null>(null);
   const token = ref<string | null>(null);
   const refreshToken = ref<string | null>(null);
