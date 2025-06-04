@@ -40,8 +40,6 @@ onMounted(() => {
 });
 
 function sendPrivateMessage() {
-  console.log(authStore.user);
-
   const socket = getSocket();
   if (!socket) {
     console.warn("❌ Socket chưa kết nối!");

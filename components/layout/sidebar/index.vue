@@ -7,7 +7,7 @@
         </nuxt-link>
         <UTooltip v-for="(item, index) in menus" key="index" :text="item.title">
           <nuxt-link :to="item.link" active-class="!text-primary" class="text-secondary-500 duration-300 hover:text-background-200">
-            <Icon :name="item.icon" size="24" />
+            <Icon :name="item.icon" size="28" />
           </nuxt-link>
         </UTooltip>
       </div>
@@ -107,51 +107,51 @@ const { $api } = useNuxtApp();
 const resp = await $api("/message/private/683e71438bfbbfab3f738861/683d0e8619a3ad83a8c0396c", {
   method: "GET",
 });
-// const toast = useToast();
-// const imageUrl = ref<string | null>(null);
+const toast = useToast();
+const imageUrl = ref<string | null>(null);
 
-// const handleFileChange = async (event: Event) => {
-//   const target = event.target as HTMLInputElement;
-//   const file = target.files?.[0];
-//   if (!file) {
-//     toast.add({
-//       color: "red",
-//       title: "Error!",
-//       description: "Please select an image.",
-//       icon: "i-ic:outline-error-outline",
-//     });
-//     return;
-//   }
-//   const formData = new FormData();
-//   formData.append("image", file);
-//   try {
-//     const response = await $api("/medias", {
-//       method: "POST",
-//       body: formData,
-//     });
-//     if (response?.data?.url) {
-//       imageUrl.value = response?.data?.url;
-//       toast.add({
-//         color: "green",
-//         title: "Success!",
-//         description: "Upload successful!",
-//         icon: "i-ic:outline-error-outline",
-//       });
-//     } else {
-//       toast.add({
-//         color: "red",
-//         title: "Error!",
-//         description: "Upload failed!",
-//         icon: "i-ic:outline-error-outline",
-//       });
-//     }
-//   } catch (error) {
-//     toast.add({
-//       color: "red",
-//       title: "Error!",
-//       description: error?.error?.message,
-//       icon: "i-ic:outline-error-outline",
-//     });
-//   }
-// };
+const handleFileChange = async (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (!file) {
+    toast.add({
+      color: "red",
+      title: "Error!",
+      description: "Please select an image.",
+      icon: "i-ic:outline-error-outline",
+    });
+    return;
+  }
+  const formData = new FormData();
+  formData.append("image", file);
+  try {
+    const response = await $api("/medias", {
+      method: "POST",
+      body: formData,
+    });
+    if (response?.data?.url) {
+      imageUrl.value = response?.data?.url;
+      toast.add({
+        color: "green",
+        title: "Success!",
+        description: "Upload successful!",
+        icon: "i-ic:outline-error-outline",
+      });
+    } else {
+      toast.add({
+        color: "red",
+        title: "Error!",
+        description: "Upload failed!",
+        icon: "i-ic:outline-error-outline",
+      });
+    }
+  } catch (error) {
+    toast.add({
+      color: "red",
+      title: "Error!",
+      description: error?.error?.message,
+      icon: "i-ic:outline-error-outline",
+    });
+  }
+};
 </script>

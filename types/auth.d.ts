@@ -24,6 +24,7 @@ interface AppUser {
   updatedAt: string | null;
   description: string | null;
   position: string | null;
+  background: string | null;
 }
 
 interface AuthMenu {
