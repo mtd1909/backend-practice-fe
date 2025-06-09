@@ -2,17 +2,13 @@ import { useNuxtApp } from "#app";
 
 export const useUser = () => {
   const { $api } = useNuxtApp();
-  const token = useCookie("kaisar_explore_token");
 
   const getUsers = async () => {
     try {
-      const res = await $api("/users", {
+      const resp = await $api("/user", {
         method: "GET",
-        headers: {
-          Authorization: token?.value,
-        },
       });
-      return res;
+      return resp;
     } catch (error) {
       return error;
     }
@@ -23,10 +19,6 @@ export const useUser = () => {
       const res = await $api("/users", {
         method: "POST",
         body: JSON.stringify(payload),
-        headers: {
-          Authorization: token?.value,
-          "Content-Type": "application/json",
-        },
       });
       return res;
     } catch (error) {
@@ -39,10 +31,6 @@ export const useUser = () => {
       const res = await $api(`/users/${id}`, {
         method: "PUT",
         body: JSON.stringify(payload),
-        headers: {
-          Authorization: token?.value,
-          "Content-Type": "application/json",
-        },
       });
       return res;
     } catch (error) {
@@ -54,11 +42,40 @@ export const useUser = () => {
     try {
       const res = await $api(`/users/${id}`, {
         method: "DELETE",
-        headers: {
-          Authorization: token?.value,
-        },
       });
       return res;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const getContacts = async () => {
+    try {
+      const resp = await $api("/user/contacts", {
+        method: "GET",
+      });
+      return resp;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const getFavorites = async () => {
+    try {
+      const resp = await $api("/user/favorites", {
+        method: "GET",
+      });
+      return resp;
+    } catch (error) {
+      return error;
+    }
+  };
+  const toggleFavorites = async (id: string) => {
+    try {
+      const resp = await $api(`/user/favorites/toggle/${id}`, {
+        method: "POST",
+      });
+      return resp;
     } catch (error) {
       return error;
     }
@@ -69,5 +86,8 @@ export const useUser = () => {
     addUsers,
     updateUsers,
     deleteUser,
+    getContacts,
+    getFavorites,
+    toggleFavorites
   };
 };

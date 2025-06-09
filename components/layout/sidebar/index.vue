@@ -68,7 +68,7 @@ const menus = ref([
   {
     title: "Contacts",
     icon: "ic:baseline-contacts",
-    link: "/chat",
+    link: "/contacts",
   },
   {
     title: "Calls",

@@ -13,18 +13,20 @@ enum UserStatus {
 
 
 interface AppUser {
+  _id: string;
   email: string;
   username: string;
   password: string;
-  createdAt: string | Date;
-  avatar: string | null;
-  fullName: string | null;
+  createdAt: string; // ISO string
+  avatar: string;
+  fullName: string;
   location: string | null;
   status: string | null;
   updatedAt: string | null;
   description: string | null;
   position: string | null;
   background: string | null;
+  isFavorite?: boolean
 }
 
 interface AuthMenu {

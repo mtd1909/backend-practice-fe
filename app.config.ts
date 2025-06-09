@@ -37,7 +37,7 @@ export default defineAppConfig({
       color: {
         gray: {
           outline:
-            "bg-gray-800 border border-solid border-gray-700 ring-0 focus:ring-0 text-white",
+            "bg-background-100 border border-solid border-transparent ring-0 focus:ring-0 text-secondary-400",
         },
       },
     },

@@ -33,3 +33,24 @@ img {
 .shadow-01 {
   box-shadow: rgba(15, 34, 58, 0.12) 0px 2px 4px 0px;
 }
+.form-input:focus {
+  border-color: transparent;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollable.scrolling::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.scrollable.scrolling::-webkit-scrollbar-thumb {
+  background: #e7ebef;
+}
