@@ -13,6 +13,7 @@ enum UserStatus {
 
 
 interface AppUser {
+  isBlock: any;
   _id: string;
   email: string;
   username: string;
