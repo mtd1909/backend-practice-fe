@@ -22,7 +22,7 @@ interface AppUser {
   avatar: string;
   fullName: string;
   location: string | null;
-  status: string | null;
+  status: number | null;
   updatedAt: string | null;
   description: string | null;
   position: string | null;

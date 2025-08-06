@@ -3,7 +3,7 @@ export default defineAppConfig({
     button: {
       base: "backdrop-blur-[2px] h-10 flex items-center font-semibold duration-200",
       size: {
-        xs: "text-xs",
+        xs: "w-7 h-7 p-0",
         sm: "text-sm",
         md: "text-sm",
         lg: "text-sm !px-6 h-8",
@@ -18,6 +18,9 @@ export default defineAppConfig({
         },
         dark: {
           solid: "bg-gray-900 hover:bg-gray-800 ring-0 text-white"
+        },
+        white: {
+          solid: "bg-white hover:opacity-80 ring-0 text-secondary"
         }
       },
     },

@@ -95,4 +95,9 @@ export default defineConfig({
   ],
   shortcuts: [
   ],
+  safelist: [
+    'bg-success',
+    'bg-warning',
+    'bg-error'
+  ]
 })

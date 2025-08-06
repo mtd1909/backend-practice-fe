@@ -15,3 +15,22 @@ export const GENDER_OPTS = [
     label: "Nữ",
   },
 ];
+
+export const STATUS = [
+  {
+    id: 1,
+    label: "Active",
+    color: "success"
+  },
+  {
+    id: 2,
+    label: "Away",
+    color: "warning"
+  },
+  {
+    id: 3,
+    label: "Do not disturb",
+    color: "error"
+  },
+
+];

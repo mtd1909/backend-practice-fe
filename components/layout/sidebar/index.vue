@@ -83,7 +83,7 @@ const menus = ref([
   {
     title: "Settings",
     icon: "ic:baseline-settings",
-    link: "/chat",
+    link: "/setting",
   },
 ]);
 
