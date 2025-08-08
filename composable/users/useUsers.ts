@@ -104,6 +104,18 @@ export const useUser = () => {
     }
   };
 
+  const getConversation = async () => {
+    try {
+      const resp = await $api("/user/conversation", {
+        method: "GET",
+      });
+      return resp;
+    } catch (error) {
+      return error;
+    }
+  };
+
+
   return {
     getUsers,
     addUsers,
@@ -113,6 +125,7 @@ export const useUser = () => {
     getFavorites,
     toggleFavorites,
     toggleBlock,
-    getBlocks
+    getBlocks,
+    getConversation
   };
 };

@@ -1,10 +1,13 @@
 import { storeToRefs } from "pinia";
 import { COOKIE_MAX_AGE } from "~/constants";
+import { useSocket } from "~/composable/socket/useSocket";
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const { isLoggedIn, user, token } = storeToRefs(useAuthStore());
   const redirect = useCookie("redirect");
   const config = useRuntimeConfig();
+  const { getSocket } = useSocket();
+  const socket = getSocket();
   const { $api } = useNuxtApp()
   if (!to.fullPath.includes("/logout")) {
     redirect.value = to.fullPath;
@@ -17,9 +20,8 @@ export default defineNuxtRouteMiddleware(async (to) => {
       method: 'GET',
     })
     user.value = resp?.data;
+    socket.emit("register", user.value?._id)
   };
-  console.log(user.value);
-
   if (!user.value) {
     await getDataUser();
   }

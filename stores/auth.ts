@@ -15,7 +15,7 @@ export const useAuthStore = defineStore("auth", () => {
   const refreshToken = ref<string | null>(null);
   const isLoggedIn = computed(() => token.value != null);
   async function logout(redirect?: string) {
-    await router.push(`/logout?redirect=${redirect}`);
+    await router.push(`/login?redirect=${redirect}`);
   }
   async function login({ redirect, body, rememberMe }: LoginParams) {
     try {
